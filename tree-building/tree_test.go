@@ -222,6 +222,8 @@ func (n Node) String() string {
 
 func TestMakeTreeSuccess(t *testing.T) {
 	for _, tt := range successTestCases {
+		// which test case is making it crash?
+		t.Logf("Running %q", tt.name)
 		actual, err := Build(tt.input)
 		if err != nil {
 			var _ error = err
@@ -237,6 +239,8 @@ func TestMakeTreeSuccess(t *testing.T) {
 
 func TestMakeTreeFailure(t *testing.T) {
 	for _, tt := range failureTestCases {
+		// which test case is making it crash?
+		t.Logf("Running %q", tt.name)
 		actual, err := Build(tt.input)
 		if err == nil {
 			t.Fatalf("Build for test case %q returned %s but was expected to fail.",
