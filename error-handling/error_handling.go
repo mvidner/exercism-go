@@ -27,13 +27,12 @@ func Use(o ResourceOpener, input string) (err error) {
 
 func safeFrob(rez Resource, input string) (err error) {
 	defer func() {
-		switch r := recover(); r.(type) {
-		case FrobError:
-			rez.Defrob(r.(FrobError).defrobTag)
-			err = r.(error)
-		case error:
-			err = r.(error)
+		r := recover()
+		frobErr, ok := r.(FrobError)
+		if ok {
+			rez.Defrob(frobErr.defrobTag)
 		}
+		err, _ = r.(error) // maybe nil which is good
 	}()
 	rez.Frob(input)
 	return
